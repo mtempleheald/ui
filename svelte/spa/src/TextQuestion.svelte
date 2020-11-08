@@ -19,6 +19,7 @@
 <style>
 	.question {
 		background-color: lightblue;
+		border: 1px dashed var(--content-text-color);
 	}
 	.question.active, 
 	.question:focus-within {
