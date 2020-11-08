@@ -10,6 +10,24 @@ There isn't enough time in the world to consider all ways of using all framework
 - Performance - SPAs have a reputation of being slow, with large bundle sizes, consider if the benefits outweigh this
 - Runtime - Runtime frameworks are expensive, move burden to build/tooling if possible
 
+Expecting a user journey structure similar to the following (with element reuse):
+- index
+- stages
+  - stage1        e.g. "about you" on a quote journey
+    - section1
+      - element1
+      - element2
+    - section2
+      - element1
+      - element2
+  - stage2        e.g. vehicle part of car quote journey
+    - section1
+      - element1
+      - element2
+    - section2
+      - element1
+      - element2 
+
 Jotting down notes on the frameworks as I learn more...
 
 # AngularJs
