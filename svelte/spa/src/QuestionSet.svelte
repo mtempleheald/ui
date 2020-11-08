@@ -1,5 +1,6 @@
 <script>
 	import TextQuestion from './TextQuestion.svelte';
+	import { questionSet } from './stores';
 </script>
 
 
@@ -8,19 +9,16 @@
 </style>
 
 
-<TextQuestion
-	id="1"
-	labelText="Question 1"
-	helpText="help text"
->
-	<p slot="pre">Markdown before question</p>
-	<p slot="post">Markdown after question</p>
-</TextQuestion>
-<TextQuestion
-	id="2"
-	labelText="Question 2"
-	placeholder="Placeholder..."
->
-	<p slot="pre">Markdown before question</p>
-	<p slot="post">Markdown after question</p>
-</TextQuestion>
+{#each $questionSet as q}
+{#if q.type == "TextQuestion"}
+	<TextQuestion
+		id="{q.id}"
+		label="{q.label}"
+		placeholder="{q.placeholder ?? ''}"
+		help="{q.help ?? ''}"
+	>
+	<p slot="pre">{q.pre ?? ''}</p>
+	<p slot="post">{q.post ?? ''}</p>
+	</TextQuestion>
+{/if}
+{/each}

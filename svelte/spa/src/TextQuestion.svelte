@@ -1,7 +1,7 @@
 <script>
 	export let id;
-	export let labelText;
-	export let helpText;
+	export let label;
+	export let help;
 	export let placeholder;
 	let active;
 	let hovering;
@@ -29,10 +29,11 @@
 
 <div class="question {active}" on:mouseenter={enter} on:mouseleave={leave} hovering={hovering}>
 	<slot name="pre"></slot>
-	<label for="{id}">{labelText}</label>
+	<label for="{id}">{label}</label>
 	<input placeholder="{placeholder}" type="text" id="{id}" name="{id}"/>
-	{#if helpText}
-		<span class="tooltip">{helpText}</span>
+	{#if help}
+		<span class="tooltip">{help}</span>
 	{/if}
+	<slot></slot>
 	<slot name="post"></slot>
 </div>
