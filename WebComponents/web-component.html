@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF8" />
+    <title>Web Components</title>
+    <style>
+        address-lookup {
+            /*background-color: aquamarine;*//* this will override everything for some reason */
+            --addr-bg-color-main: orange;
+            --addr-bg-color-input: green;/* must be overridden in the custom element not by selector */
+        }
+        address-lookup input {
+            background-color: yellow;
+            --addr-bg-color-input: pink; /* ignored unless done in the custom element selector (address-lookup) */
+        }
+    </style>
+    <script>
+        const template = document.createElement('template');
+        template.innerHTML = `
+        <style>
+            :host {
+                /*--addr-bg-color-main: cyan;
+                --addr-bg-color-input: red;*/
+                display: block;
+                background-color: var(--addr-bg-color-main, #cccccc);
+            }
+            input {
+                background-color: var(--addr-bg-color-input, #ffffff);
+            }
+            form {
+                display: grid;
+                grid-template-columns: repeat(1fr, 1fr);
+
+                justify-items: start; /* align items on row axis - start|end|center|stretch */
+                align-items: start; /* align items on column axis - start|end|center|stretch */   
+                justify-content: start; /* whole grid on row axis - start|end|center|stretch|space-around|space-between|space-evenly */
+                align-content: stretch; /* whole grid on column axis - start|end|center|stretch|space-around|space-between|space-evenly */
+                grid-gap: 0 1rem;
+                margin: 0 1rem;
+            }
+            input {
+                grid-column: 2;
+            }
+            label {
+                grid-column: 1;
+            }
+        </style>
+        <h1>Address Lookup</h1>
+        <form action="#">
+        <label for="postcode">Postcode</label>
+        <input name="postcode" type="text" placeholder="Postcode...">
+        <br/>
+        <label for="house">House name/number</label>
+        <input name="house" type="text" placeholder="House Name/Number">
+        <br/>
+        <label for="address1"></label>
+        <input name="address1" type="text" placeholder="" readonly>
+        <br/>
+        <label for="address2"></label>
+        <input name="address2" type="text" placeholder="" readonly>
+        <br/>
+        <label for="address3"></label>
+        <input name="address3" type="text" placeholder="" readonly>
+        <br/>
+        <label for="address4"></label>
+        <input name="address4" type="text" placeholder="" readonly>
+        <br/>
+        <button type="submit">Submit</button>
+        </form>
+        `;
+
+        // define AddressLookup custom element as extension of the standard HTMLElement
+        // Basics of the "class" https://dev.to/thepassle/web-components-from-zero-to-hero-4n4m
+        class AddressLookup extends HTMLElement {
+            // on creation, before insertion to DOM
+            constructor() {
+
+                super();// always call super() first
+                // create a shadowroot, open for maximal flexibility (external JS can interact)
+                this._shadowRoot = this.attachShadow({ 'mode': 'open' });
+                // Clone prototype template object and append to our shadow DOM
+                this._shadowRoot.appendChild(template.content.cloneNode(true));
+                // Set up element properties (model)
+                this.$house = "";
+                this.$address1 = "";
+                this.$address2 = "";
+                this.$address3 = "";
+                this.$postcode = this._shadowRoot.querySelector('input[name="postcode"]');
+                this.$submitButton = this._shadowRoot.querySelector('button');
+                this.$submitButton.addEventListener('click', function () { console.log('submit button clicked') });
+                console.log('constructed!');
+            }
+            // when attaching to DOM
+            connectedCallback() {
+                console.log('connected to DOM!');
+            }
+            // when removing from DOM
+            disconnectedCallback() {
+                console.log('disconnected from DOM!');
+            }
+            // when element's "observed attributes" change
+            attributeChangedCallback(name, oldVal, newVal) {
+                console.log(`Attribute: ${name} changed!`);
+            }
+            // when element moved to new document (iframe only)
+            adoptedCallback() {
+                console.log('adopted!');
+            }
+            // Set/Get properties
+            set testProp(value) {
+                this._testProp = value;
+            }
+            get testProp() {
+                return this._testProp;
+            }
+            _renderTestProp() {
+                let $elem = document.createElement('div');
+                $elem.innerHTML = this._testProp;
+                this._shadowRoot.querySelector('form').appendChild($elem);
+            }
+        }
+        // Register custom element by associating custom tag with custom class
+        window.customElements.define('address-lookup', AddressLookup);
+    </script>
+</head>
+
+<body>
+    <address-lookup>
+        <input type="text" placeholder="this additional input isn't displayed at all"></input>
+    </address-lookup>
+</body>
+
+</html>

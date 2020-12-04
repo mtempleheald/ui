@@ -1,0 +1,34 @@
+{
+    "contexts": [
+        {
+            "key": "cdl-classic",
+            "desc": "CDL-managed lists supporting the Classic product",
+            "type": "external"
+        },
+        {
+            "key": "cdl-strata",
+            "desc": "CDL-managed lists supporting the Strata product",
+            "type": "external"
+        },
+        {
+            "key": "atlanta",
+            "desc": "Atlanta-controlled, general purpose lists",
+            "type": "internal"
+        },
+        {
+            "key": "carolenash",
+            "desc": "Atlanta-controlled, brand-specific lists",
+            "type": "internal"
+        },
+        {
+            "key": "motorbike",
+            "desc": "Atlanta-controlled, product-specific lists",
+            "type": "internal"
+        },
+        {
+            "key": "carolenash-motorbike",
+            "desc": "Atlanta-controlled, brand & product specific lists",
+            "type": "internal"
+        }
+    ]
+}
